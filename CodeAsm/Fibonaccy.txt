@@ -1,0 +1,48 @@
+INCLUDE C:\Irvine\Irvine32.inc
+
+.386 
+.model flat, stdcall
+.stack 4096
+ExitProcess PROTO, deExitCode:DWORD
+
+.data
+	temp dd 0
+	num dd 0
+	msg_01 db 'Nhap so : ',0
+.code
+main PROC	
+	call ReadNum
+	call Fibonaccy
+	INVOKE ExitProcess,0
+main ENDP
+WriteNum PROC
+	call WriteDec
+	push eax
+	mov eax,20h
+	call WriteChar
+	pop eax
+	ret
+WriteNum ENDP
+ReadNum PROC
+     MOV EDX,OFFSET msg_01
+     Call WriteString
+     Call ReadInt
+     MOV num,EAX
+     ret
+ReadNum ENDP
+Fibonaccy PROC
+
+
+	mov ecx, num
+	xor eax, eax
+	mov ebx, 1
+	looper:
+		call DumpRegs
+		mov temp, ebx
+		add eax, ebx
+		mov ebx, eax
+		mov eax, temp
+		loop looper
+	ret
+Fibonaccy ENDP
+END main

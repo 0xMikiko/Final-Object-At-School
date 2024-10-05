@@ -1,0 +1,105 @@
+.386
+.model flat,stdcall
+.stack 4096
+
+INCLUDE Irvine32.inc
+    
+.data
+    tuSo dword 1
+    mauSo dword 1
+    uclnNum dword ?
+    n dword ?
+    msgNhap byte "Nhap n:",0
+    gachCheo byte "/"
+
+.code
+tinhTuSo PROC
+    ;tinh tu so
+        xor edx, edx
+        mov eax, tuSo
+        mul ecx
+        add eax, mauSo
+        mov tuSo, eax
+    ret
+tinhTuSo ENDP
+
+tinhMauSo PROC
+    ;tinh mau so
+        xor edx, edx
+        mov eax, mauSo
+        mul ecx
+        mov mauSo, eax
+    ret
+tinhMauSo ENDP
+
+congPhanSo PROC
+    call tinhTuSo
+    call tinhMauSo
+    ret
+congPhanSo ENDP
+
+nhapN PROC
+    lea edx, msgNhap
+    call writeString
+    call readInt
+    cmp eax, 0
+    jg L1
+    exit
+    L1:
+    mov n, eax
+    ret
+nhapN ENDP
+
+UCLN PROC
+     MOV eax,tuSo
+     MOV ebx,mauSo
+     .WHILE eax != ebx
+          .IF eax < ebx
+               SUB ebx,eax
+          .ELSEIF eax > ebx
+               SUB eax,ebx
+          .ENDIF
+     .ENDW
+     MOV uclnNum,eax;ucln 2 so
+     RET
+UCLN ENDP
+
+main PROC
+    
+    call NhapN
+
+    mov ecx, 2
+    loop_start:
+    cmp ecx, n
+    ja loop_end
+
+        call congPhanSo
+        
+    inc ecx
+    jmp loop_start
+    loop_end:
+
+    
+    call UCLN
+    xor edx,edx
+    mov eax,tuSo
+    div uclnNum
+    mov tuSo,eax 
+
+    xor edx,edx
+    mov eax,mauSo
+    div uclnNum
+    mov mauSo,eax
+
+    call crlf
+    mov eax, tuSo
+    call writeInt
+    mov al, gachCheo
+    call writeChar
+    mov eax, mauSo
+    call writeInt
+
+    exit
+main ENDP
+END main
+

@@ -1,0 +1,60 @@
+INCLUDE C:\Irvine\Irvine32.inc
+
+.386 
+.model flat, stdcall
+.stack 4096
+ExitProcess PROTO, deExitCode:DWORD
+
+.data
+arr dword 5,3,-3,1,2,-6,4,2
+SizeArr = ($ - arr) / TYPE arr
+n dword SizeArr
+.code
+
+main PROC
+	MOV ESI, 0 ; i = 0
+	mov ecx,SizeArr
+L1:
+	mov eax,arr[esi*TYPE arr]
+	cmp esi,n
+	jz print
+	cmp eax,0
+	jge next
+
+	dec ecx
+	mov edi,esi ; j=i
+L2:	
+	mov ebx, arr[edi*TYPE arr] ; a[j]
+	inc edi
+	xchg arr[(edi)*TYPE arr],ebx  ;a[j+1]
+	dec edi
+	mov arr[(edi)*TYPE arr],ebx   ; a[j]
+	inc edi
+	loop L2
+
+	mov eax,arr[esi*TYPE arr]
+	mov ecx,SizeArr
+	sub ecx,esi
+	dec n
+next:
+	inc esi
+	loop L1
+
+
+
+print:
+	mov esi,0
+    MOV ECX, n
+lap:
+    MOV EAX, arr[esi*TYPE arr]
+    CALL WriteDec
+    MOV EAX, 20h
+    CALL WriteChar
+    inc esi
+    LOOP lap
+    
+
+	INVOKE ExitProcess,0
+main ENDP
+
+END main

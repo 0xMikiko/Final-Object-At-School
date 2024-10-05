@@ -1,0 +1,43 @@
+INCLUDE		Irvine32.inc
+
+.386
+.model flat, stdcall
+.stack 4096
+
+ExitProcess PROTO, dwExitCode:DWORD
+
+.data
+aString	BYTE	"ABCDEFGHIJKLMNOPQRSTUVWXYZ", 0
+bString	BYTE	SIZEOF aString DUP(?)
+
+
+.code
+main PROC
+
+	mov edx,offset aString				
+	call writestring						
+	call crlf
+
+	mov esi,(offset aString) + (SIZEOF aString)-2
+	mov edi, offset bString
+	mov ecx, SIZEOf aString
+
+	L1: mov al, [esi]
+	mov [edi], al
+	dec esi 
+	inc edi 
+	loop L1
+
+	mov esi, OFFSET bString  
+	mov ecx, SIZEOF bString-1 
+	MOV EDX, offset bString
+	call crlf
+	CALL WriteString				
+
+	call crlf
+	call crlf
+	call crlf
+	INVOKE ExitProcess, 0
+main ENDP
+
+END main

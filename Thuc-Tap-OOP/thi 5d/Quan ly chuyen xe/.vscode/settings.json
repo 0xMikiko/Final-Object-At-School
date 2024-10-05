@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.java": "java",
+        "iosfwd": "c",
+        "xstring": "cpp",
+        "iostream": "c"
+    }
+}

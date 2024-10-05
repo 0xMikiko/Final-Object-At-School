@@ -1,0 +1,47 @@
+INCLUDE C:\Irvine\Irvine32.inc
+
+.386 
+.model flat, stdcall
+.stack 4096
+ExitProcess PROTO, deExitCode:DWORD
+
+.data
+	bVal      BYTE ?
+	wVal    WORD ? 
+	dVal     DWORD ?
+	dVal2   DWORD ?  
+	var dword 12345678h
+	mybyte byte 12h,34h,56h,78h
+	
+
+	var1 BYTE ?
+	var2 WORD ?
+	var3 DWORD ?
+	var4 QWORD ?
+
+.code
+
+main PROC
+	mov esi,OFFSET bVal                     ; ESI = 007D4000 
+	mov esi,OFFSET wVal                    ; ESI =  007D4001 
+	mov esi,OFFSET dVal                     ; ESI = 007D4003 
+	mov esi,OFFSET dVal2                   ; ESI = 007D4007
+
+	mov ax, word ptr var
+	mov bx, word ptr [var+1]
+	mov word ptr var,4321h
+
+
+	mov ax, word ptr [mybyte+1]
+
+	mov edx, TYPE var1
+	mov edx, TYPE var2 
+	mov edx, TYPE var3 
+	mov edx, TYPE var4 
+
+	mov eax,SIZEOF mybyte  
+	mov ebx,LENGTHOF mybyte      
+	
+	INVOKE ExitProcess,0
+main ENDP
+END main

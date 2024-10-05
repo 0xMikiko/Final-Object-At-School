@@ -1,0 +1,67 @@
+INCLUDE Irvine32.inc
+
+.data                          
+str1 byte "Nhap chuoi: ",0
+str2 byte "Nhap ki tu muon tim: ",0
+str3 byte "Nhap ki tu muon thay the: ",0
+str4 byte "So ki tu trong chuoi la: ",0
+char1 byte ?
+StringCheck byte 100 DUP(0),0
+byteCount dword ?
+
+.code                           
+
+
+main PROC                 
+    mov edx, OFFSET str1
+    call WriteString
+
+    mov edx, OFFSET StringCheck
+    mov ecx, SIZEOF StringCheck
+    call ReadString
+    mov byteCount,eax
+
+    mov edx, OFFSET str2
+    call WriteString
+    call ReadChar      
+    call WriteChar
+    mov char1,al
+    call Crlf
+
+
+    mov edx, OFFSET str3
+    call WriteString
+    call ReadChar      
+    call WriteChar
+    call Crlf
+
+
+    mov edi,0
+    mov ecx,byteCount
+    ;call DumpRegs
+    FindAndCount:
+        mov bl, BYTE PTR StringCheck[ecx]
+        cmp bl,char1
+        jne next_step
+        mov BYTE PTR StringCheck[ecx],al
+        inc edi
+        next_step:
+        
+    Loop FindAndCount
+
+    mov edx, OFFSET str4
+    call WriteString
+    mov eax,edi
+    call WriteDec
+    call Crlf
+
+    mov edx, OFFSET StringCheck
+    call WriteString
+    call Crlf
+
+    call Crlf
+    call Crlf
+    call Crlf
+    invoke exitprocess,0                       
+main ENDP
+END main

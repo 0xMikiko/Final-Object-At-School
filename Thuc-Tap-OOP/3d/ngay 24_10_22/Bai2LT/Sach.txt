@@ -1,0 +1,4 @@
+18C7H,Toan,Nam,MTA,120, 
+9CI0Y,Ly,Hanh,MTA,70,
+5TD4G,Sinh,Nam,BKH,89, 
+7CHJD,Cach Cua Gai,Quang Tung,Tu Lam,70,
